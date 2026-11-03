@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Tu dinero, tus hábitos · Encuesta UFG</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #edf2ee;
+        --card: #fff;
+        --ink: #12261d;
+        --mute: #5b6b62;
+        --line: #d3ddd6;
+        --pri: #0f4d36;
+        --onpri: #fff;
+        --coin: #f0b429;
+        --coinline: #b9831a;
+        color-scheme: light;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0e1a14;
+          --card: #16271e;
+          --ink: #e8f0ea;
+          --mute: #9db0a4;
+          --line: #2a4034;
+          --pri: #59c998;
+          --onpri: #08140e;
+          --coin: #f0b429;
+          --coinline: #8a6414;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0e1a14;
+        --card: #16271e;
+        --ink: #e8f0ea;
+        --mute: #9db0a4;
+        --line: #2a4034;
+        --pri: #59c998;
+        --onpri: #08140e;
+        --coin: #f0b429;
+        --coinline: #8a6414;
+        color-scheme: dark;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          400 17px/1.5 Figtree,
+          system-ui,
+          sans-serif;
+        min-height: 100vh;
+      }
+      main {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 20px 18px 48px;
+      }
+      h1,
+      h2 {
+        font-family: "Bricolage Grotesque", Georgia, serif;
+        line-height: 1.1;
+        margin: 0;
+      }
+      h1 {
+        font-size: clamp(2.2rem, 8vw, 3.2rem);
+        font-weight: 800;
+        margin: 28px 0 14px;
+      }
+      h2 {
+        font-size: clamp(1.4rem, 5vw, 1.8rem);
+        font-weight: 600;
+        margin: 6px 0 20px;
+      }
+      .hint {
+        color: var(--mute);
+        font-size: 0.95rem;
+        margin: -8px 0 18px;
+      }
+      .brand {
+        font-weight: 600;
+        color: var(--mute);
+        font-size: 0.9rem;
+      }
+      .coins {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin: 18px 0 6px;
+      }
+      .coins i {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid var(--line);
+        transition:
+          background 0.3s,
+          border-color 0.3s,
+          transform 0.3s;
+      }
+      .coins i.on {
+        background: var(--coin);
+        border-color: var(--coinline);
+        transform: scale(1.08);
+      }
+      .sec {
+        color: var(--mute);
+        font-size: 0.95rem;
+        margin: 0;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 22px 18px;
+        margin-top: 10px;
+      }
+      .opts {
+        display: grid;
+        gap: 10px;
+      }
+      .opt {
+        font: inherit;
+        text-align: left;
+        color: var(--ink);
+        background: transparent;
+        border: 2px solid var(--line);
+        border-radius: 12px;
+        padding: 14px 16px;
+        cursor: pointer;
+        min-height: 52px;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+      }
+      .opt:hover {
+        border-color: var(--pri);
+      }
+      .opt.sel {
+        border-color: var(--pri);
+        background: color-mix(in srgb, var(--pri) 14%, transparent);
+        font-weight: 600;
+      }
+      .scale {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+      }
+      .scale .opt {
+        text-align: center;
+        font-size: 1.3rem;
+        font-weight: 600;
+        padding: 14px 0;
+      }
+      .ends {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--mute);
+        font-size: 0.9rem;
+        margin-top: 10px;
+      }
+      .btn {
+        font: inherit;
+        font-weight: 600;
+        border: 0;
+        border-radius: 12px;
+        padding: 14px 22px;
+        cursor: pointer;
+        background: var(--pri);
+        color: var(--onpri);
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--mute);
+        padding-left: 0;
+      }
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 18px;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 18px;
+        color: var(--mute);
+        font-size: 0.95rem;
+        margin: 18px 0 26px;
+      }
+      .acts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .acts .btn.alt {
+        background: transparent;
+        color: var(--ink);
+        border: 2px solid var(--line);
+      }
+      :focus-visible {
+        outline: 3px solid var(--coin);
+        outline-offset: 2px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="app"></main>
+    <script>
+      var Q = [
+        [
+          "Sobre ti",
+          "¿En qué rango de edad te encuentras?",
+          ["17-18 años", "19-20 años", "21-22 años", "23-25 años"],
+          null,
+          "",
+        ],
+        [
+          "Sobre ti",
+          "¿De dónde viene el dinero que usas normalmente?",
+          [
+            "Mis padres o familia",
+            "Un trabajo mío (tiempo completo o medio tiempo)",
+            "Una beca o ayuda de estudio",
+            "Un negocio o ventas propias",
+          ],
+          null,
+          "",
+        ],
+        [
+          "Tus finanzas",
+          "¿Alguna vez te enseñaron en el colegio a manejar tu dinero (ahorrar, planear gastos)?",
+          [
+            "Sí, en una materia o curso",
+            "Solo en alguna charla",
+            "No, nunca",
+            "No recuerdo",
+          ],
+          null,
+          "A esto se le llama educación financiera: aprender a usar bien el dinero.",
+        ],
+        [
+          "Tus finanzas",
+          "¿Qué significa ahorrar?",
+          [
+            "Guardar una parte de mi dinero para usarlo después",
+            "Gastar todo el dinero que tengo",
+            "Pedir dinero prestado",
+            "No sé",
+          ],
+          null,
+          "Responde con lo que creas. Si no lo sabes, elige «No sé».",
+        ],
+        [
+          "Tus finanzas",
+          "De estas cosas: cuenta de ahorro, tarjeta de débito, tarjeta de crédito, préstamo y seguro, ¿cuántas conoces?",
+          [
+            "Las conozco todas",
+            "Conozco algunas",
+            "Solo he oído hablar de ellas",
+            "No conozco ninguna",
+          ],
+          null,
+          "Se llaman productos financieros: servicios que ofrecen los bancos.",
+        ],
+        [
+          "Tus finanzas",
+          "¿Haces un presupuesto para organizar tu dinero?",
+          [
+            "Sí, lo anoto (cuaderno, app o Excel)",
+            "Lo hago solo en mi cabeza",
+            "No, nunca",
+            "No sé qué es un presupuesto",
+          ],
+          null,
+          "Un presupuesto es decidir cuánto dinero tienes y en qué lo vas a gastar.",
+        ],
+        [
+          "Tus finanzas",
+          "¿Cuánto dinero gastas en promedio al día entre la universidad y tus gastos personales?",
+          ["Menos de $2", "De $2 a $5", "De $5 a $10", "Más de $10"],
+          null,
+          "Cuenta transporte, comida, saldo, salidas y compras.",
+        ],
+        [
+          "Tus finanzas",
+          "¿En qué categoría gastas la mayor parte de tu dinero durante la semana?",
+          [
+            "Gastos de la universidad (transporte, comida, impresiones)",
+            "Gastos personales y de ocio (salidas, café, entretenimiento)",
+            "Compras por antojo (ropa, accesorios, snacks)",
+            "Servicios digitales (saldo, datos móviles, juegos)",
+          ],
+          null,
+          "Piensa en una semana normal y elige la que más pese.",
+        ],
+        [
+          "Tus finanzas",
+          "¿Qué tan seguido se te acaba el dinero antes de tiempo?",
+          ["Nunca", "A veces", "Casi siempre", "Siempre"],
+          null,
+          "Por ejemplo, antes de que termine la semana o el mes.",
+        ],
+        [
+          "Tus finanzas",
+          "En tu casa, ¿se habla o se enseña sobre cómo manejar el dinero?",
+          ["Sí, frecuentemente", "A veces", "Casi nunca", "Nunca"],
+          null,
+          "Por ejemplo, si te explican cómo ahorrar o cuánto cuestan las cosas.",
+        ],
+        [
+          "Tus finanzas",
+          "¿Has pedido dinero a apps de préstamos rápidos, prestamistas o has comprado fiado?",
+          ["Nunca", "Una o dos veces", "Con frecuencia", "No sé qué son"],
+          null,
+          "Las apps de préstamos dan dinero al instante, pero cobran intereses altos.",
+        ],
+        [
+          "Tus hábitos de consumo",
+          "¿Con qué frecuencia compras cosas por antojo, sin haberlo planeado?",
+          ["Casi a diario", "2 o 3 veces por semana", "Casi nunca", "Nunca"],
+          null,
+          "Ejemplos: ropa, accesorios, snacks, café o salidas no planeadas.",
+        ],
+        [
+          "Tus hábitos de consumo",
+          "¿Qué es lo que más te lleva a gastar más de lo que tenías pensado?",
+          [
+            "Ofertas, descuentos o publicidad en redes",
+            "Estrés o querer premiarme",
+            "Amigos o compañeros",
+            "Nada, me controlo",
+          ],
+          null,
+          "",
+        ],
+        [
+          "Tus hábitos de consumo",
+          "Antes de comprar algo, ¿piensas si dura mucho o si daña el ambiente?",
+          ["Siempre", "A veces", "Casi nunca", "Nunca"],
+          null,
+          "Por ejemplo, elegir algo que dure más o que use menos plástico.",
+        ],
+        [
+          "Tus hábitos de consumo",
+          "¿Separas la basura para reciclar (plástico, papel, vidrio)?",
+          ["Siempre", "A veces", "Casi nunca", "Nunca"],
+          null,
+          "",
+        ],
+        [
+          "Tus hábitos de consumo",
+          "¿Con qué frecuencia usas cosas desechables (botellas, bolsas, platos)?",
+          [
+            "Casi a diario",
+            "Algunas veces por semana",
+            "Casi nunca",
+            "Uso solo reutilizables",
+          ],
+          null,
+          "Desechable es lo que se usa una vez y se tira.",
+        ],
+        [
+          "Tus hábitos de consumo",
+          "¿Con qué frecuencia botas comida que compraste o cocinaste?",
+          ["Casi a diario", "Algunas veces por semana", "Rara vez", "Nunca"],
+          null,
+          "",
+        ],
+        [
+          "Tus hábitos de consumo",
+          "¿Dónde compras sobre todo tus alimentos y cosas de uso diario?",
+          [
+            "Mercados o tiendas de mi comunidad",
+            "Supermercados grandes",
+            "Por internet",
+            "Un poco de todos",
+          ],
+          null,
+          "Las tiendas locales son las de barrio, mercados y negocios cercanos.",
+        ],
+        [
+          "Tus hábitos de consumo",
+          "¿Cómo llegas normalmente a la universidad?",
+          [
+            "Caminando o en bicicleta",
+            "En bus o transporte público",
+            "En carro o moto propios o de la familia",
+            "En taxi, Uber o moto de aplicación",
+          ],
+          null,
+          "",
+        ],
+        [
+          "Tu opinión",
+          "¿Qué estrategia aplicas, o podrías aplicar, para no quedarte sin dinero antes de que termine la semana?",
+          [
+            "Hacer un presupuesto semanal",
+            "Apartar primero una parte para ahorrar",
+            "Anotar todo lo que gasto",
+            "Reducir salidas y compras por antojo",
+          ],
+          null,
+          "",
+        ],
+      ];
+      var A = [],
+        i = -1,
+        app = document.getElementById("app");
+      function coins() {
+        var s =
+          '<div class="coins" role="img" aria-label="Progreso: ' +
+          A.filter(function (x) {
+            return x != null;
+          }).length +
+          " de " +
+          Q.length +
+          '">';
+        for (var k = 0; k < Q.length; k++)
+          s += '<i class="' + (A[k] != null ? "on" : "") + '"></i>';
+        return s + "</div>";
+      }
+      function intro() {
+        app.innerHTML =
+          '<div class="brand">Universidad Francisco Gavidia</div><h1>Tu dinero, tus hábitos</h1>' +
+          "<p>Estamos investigando cómo la falta de educación financiera influye en el consumo sostenible de los estudiantes de primer año. Tus respuestas nos ayudarán a proponer talleres y estrategias para la UFG.</p>" +
+          '<div class="meta"><span>20 preguntas</span><span>4 minutos</span><span>Respuestas anónimas</span></div>' +
+          '<button class="btn" id="go">Comenzar encuesta</button>' +
+          '<p class="sec" style="margin-top:30px">Equipo investigador: Betza Rodríguez, Claudia Hernández, Jessica Guardado y Josué Barrientos.</p>';
+        document.getElementById("go").onclick = function () {
+          i = 0;
+          show();
+        };
+      }
+      function show() {
+        if (i < 0) return intro();
+        if (i >= Q.length) return end();
+        var q = Q[i],
+          h =
+            coins() +
+            '<p class="sec">' +
+            q[0] +
+            " · pregunta " +
+            (i + 1) +
+            " de " +
+            Q.length +
+            '</p><div class="card"><h2>' +
+            q[1] +
+            "</h2>" +
+            (q[4] ? '<p class="hint">' + q[4] + "</p>" : "");
+        if (q[2]) {
+          h += '<div class="opts">';
+          q[2].forEach(function (o, k) {
+            h +=
+              '<button class="opt' +
+              (A[i] === k ? " sel" : "") +
+              '" data-k="' +
+              k +
+              '">' +
+              o +
+              "</button>";
+          });
+          h += "</div>";
+        } else {
+          h += '<div class="scale">';
+          for (var k = 0; k < 5; k++)
+            h +=
+              '<button class="opt' +
+              (A[i] === k ? " sel" : "") +
+              '" data-k="' +
+              k +
+              '" aria-label="' +
+              (k + 1) +
+              ' de 5">' +
+              (k + 1) +
+              "</button>";
+          h +=
+            '</div><div class="ends"><span>1 = ' +
+            q[3][0] +
+            "</span><span>5 = " +
+            q[3][1] +
+            "</span></div>";
+        }
+        h +=
+          '</div><div class="nav"><button class="btn ghost" id="bk">Volver</button><span class="sec">' +
+          (A[i] != null ? "" : "Elige una opción") +
+          "</span></div>";
+        app.innerHTML = h;
+        window.scrollTo(0, 0);
+        app.querySelectorAll(".opt").forEach(function (b) {
+          b.onclick = function () {
+            A[i] = +b.dataset.k;
+            show();
+            setTimeout(function () {
+              i++;
+              show();
+            }, 260);
+          };
+        });
+        document.getElementById("bk").onclick = function () {
+          i--;
+          show();
+        };
+      }
+      function txt(k) {
+        var q = Q[k];
+        return q[2] ? q[2][A[k]] : String(A[k] + 1);
+      }
+      function csv() {
+        return (
+          "\ufeffN,Pregunta,Respuesta\n" +
+          Q.map(function (q, k) {
+            return (
+              k +
+              1 +
+              ',"' +
+              q[1].replace(/"/g, '""') +
+              '","' +
+              txt(k).replace(/"/g, '""') +
+              '"'
+            );
+          }).join("\n")
+        );
+      }
+      function end() {
+        app.innerHTML =
+          coins() +
+          "<h1>¡Gracias por participar!</h1><p>Tus respuestas ya forman parte de la investigación.</p>";
+      }
+      show();
+    </script>
+  </body>
+</html>
